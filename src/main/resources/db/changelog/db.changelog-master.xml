@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+	<changeSet author="asrar" id="00001">
+		<createSequence incrementBy="1" sequenceName="COUNTRY_SEQ"
+			startValue="1" />
+		<createTable tableName="COUNTRY">
+			<column name="ID" type="int"></column>
+			<column name="NAME" type="varchar(50)" />
+			<column name="ISO_COUNTRY_CODE" type="varchar(10)" />
+			<column name="ISO_CALLING_CODE" type="varchar(10)" />
+			<column name="ISO_CURRENCY_CODE" type="varchar(10)" />
+			<column name="ISO_LANGUAGE_CODE" type="varchar(10)" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="COUNTRY_SEQ" tableName="COUNTRY" />
+		<addPrimaryKey tableName="COUNTRY"
+			columnNames="ID" constraintName="COUNTRY_PK" />
+		<addUniqueConstraint 
+            columnNames="ISO_COUNTRY_CODE" constraintName="COUNTRY_ISOCOUNTRYCODE_UNIQUE"  
+            tableName="COUNTRY" />
+        <addUniqueConstraint 
+            columnNames="NAME" constraintName="COUNTRY_NAME_UNIQUE"  
+            tableName="COUNTRY" />
+         <addUniqueConstraint 
+            columnNames="ISO_CALLING_CODE" constraintName="COUNTRY_COUNTRYCALLCODE_UNIQUE"  
+            tableName="COUNTRY" />
+	
+	
+
+		<createSequence incrementBy="1" sequenceName="ADDRESS_SEQ"
+			startValue="1" />
+		<createTable tableName="ADDRESS">
+			<column name="ID" type="int"></column>
+			<column name="POSTCODE" type="varchar(50)" />
+			<column name="ADDRESS_LINE_1" type="varchar(255)" />
+			<column name="ADDRESS_LINE_2" type="varchar(255)" />
+			<column name="ADDRESS_LINE_3" type="varchar(255)" />
+			<column name="COUNTY" type="varchar(50)" />
+			<column name="COUNTRY" type="varchar(50)" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="ADDRESS_SEQ" tableName="ADDRESS" />
+		<addPrimaryKey tableName="ADDRESS" columnNames="ID"
+			constraintName="ADDRESS_PK" />
+
+
+
+		<createSequence incrementBy="1" sequenceName="CONTACT_SEQ"
+			startValue="1" />
+		<createTable tableName="CONTACT">
+			<column name="ID" type="int"></column>
+			<column name="TITLE" type="varchar(20)">
+			</column>
+			<column name="FIRST_NAME" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="LAST_NAME" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TELEPHONE_NUMBER" type="varchar(20)">
+				<constraints nullable="false" />
+			</column>
+			<column name="EMAIL" type="int"></column>
+			<column name="CONTACT_PREFERENCE" type="int"></column>
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="CONTACT_SEQ" tableName="CONTACT" />
+		<addPrimaryKey tableName="CONTACT" columnNames="ID"
+			constraintName="CONTACT_PK" />
+
+		
+            
+		<createSequence incrementBy="1" sequenceName="COMPANY_SEQ"
+			startValue="1" />
+		<createTable tableName="COMPANY">
+			<column name="ID" type="int"></column>
+			<column name="COMPANY_NAME" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="COMPANY_REG_NUMBER" type="varchar(50)" />
+			<column name="ADDRESS_ID" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTIVE" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="START_DATE" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="END_DATE" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="COMPANY_SEQ" tableName="COMPANY" />
+		<addPrimaryKey tableName="COMPANY" columnNames="ID"
+			constraintName="COMPANY_PK" />
+		<addForeignKeyConstraint baseColumnNames="ADDRESS_ID"
+			baseTableName="COMPANY" constraintName="FK_COMPANY_ADDRESS_ID"
+			referencedColumnNames="ID" referencedTableName="ADDRESS" />
+		
+		
+		<createSequence incrementBy="1" sequenceName="COMPANY_CONTACT_SEQ"
+			startValue="1" />
+		<createTable tableName="COMPANY_CONTACT">
+			<column name="ID" type="int"></column>
+			<column name="COMPANY_ID" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="CONTACT_ID" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="POSITION" type="varchar(50)" />
+			<column name="PRIMARY_COMPANY_CONTACT" type="boolean" />
+			
+			<column name="ACTIVE" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="START_DATE" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="END_DATE" type="datetime">
+				<constraints nullable="false" />
+			</column>			
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="CONTACT_SEQ" tableName="CONTACT" />
+		<addPrimaryKey tableName="COMPANY_CONTACT" columnNames="ID"
+			constraintName="COMPANY_CONTACT_PK" />
+		<addForeignKeyConstraint baseColumnNames="COMPANY_ID"
+			baseTableName="COMPANY_CONTACT" constraintName="FK_COMPANY_CONTACT_COMPANY_ID"
+			referencedColumnNames="ID" referencedTableName="COMPANY" />
+		<addForeignKeyConstraint baseColumnNames="CONTACT_ID"
+			baseTableName="COMPANY_CONTACT" constraintName="FK_COMPANY_CONTACT_CONTACT_ID"
+			referencedColumnNames="ID" referencedTableName="CONTACT" />
+		
+
+
+		<createSequence incrementBy="1" sequenceName="OPERATOR_NUMBER_SEQ"
+					startValue="1" />
+		<createTable tableName="OPERATOR_NUMBER">
+			<column name="ID" type="int"></column>
+			<column name="COUNTRY_ID" type="int" />
+			<column name="NUMBER" type="varchar(20)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="OPERATOR_NUMBER_SEQ" tableName="OPERATOR_NUMBER" />
+		<addPrimaryKey tableName="OPERATOR_NUMBER" columnNames="ID"
+			constraintName="OPERATOR_NUMBER_PK" />
+		<addForeignKeyConstraint baseColumnNames="COUNTRY_ID"
+			baseTableName="OPERATOR_NUMBER" constraintName="FK_OPERATOR_NUMBER_COUNTRY_ID"
+			referencedColumnNames="ID" referencedTableName="COUNTRY" />
+		<addUniqueConstraint 
+            columnNames="COUNTRY_ID, NUMBER" constraintName="OPERATOR_NUMBER_COUNTRY_NUMBER_UNIQUE"  
+            tableName="OPERATOR_NUMBER" />
+            
+		<createSequence incrementBy="1" sequenceName="OPERATOR_FIRM_SEQ"
+			startValue="1" />
+		<createTable tableName="OPERATOR_FIRM">
+			<column name="ID" type="int"></column>
+			<column name="NAME" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ADDRESS_ID" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="OPERATOR_LICENCE" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="OPRATOR_LICENCE_EXPIRY_DATE" type="datetime" />
+			<column name="COMPANY_ID" type="int" />
+			<column name="EVIDENCE_UP_TO_DATE" type="boolean" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+			
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="OPERATOR_FIRM_SEQ" tableName="OPERATOR_FIRM" />
+		<addPrimaryKey tableName="OPERATOR_FIRM" columnNames="ID"
+			constraintName="OPERATOR_FIRM_PK" />
+		<addForeignKeyConstraint baseColumnNames="ADDRESS_ID"
+			baseTableName="OPERATOR_FIRM" constraintName="FK_OPERATOR_FIRM_ADDRESS_ID"
+			referencedColumnNames="ID" referencedTableName="ADDRESS" />
+		<addForeignKeyConstraint baseColumnNames="COMPANY_ID"
+			baseTableName="OPERATOR_FIRM" constraintName="FK_OPERATOR_FIRM_COMPANY_ID"
+			referencedColumnNames="ID" referencedTableName="COMPANY" />
+
+
+		<createSequence incrementBy="1" sequenceName="OPERATOR_FIRM_OPERATOR_NUMBER_SEQ"
+			startValue="1" />
+		<createTable tableName="OPERATOR_FIRM_OPERATOR_NUMBER">
+			<column name="ID" type="int"></column>
+			<column name="OPERATOR_FIRM_ID" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="OPERATOR_NUMBER_ID" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="START_DATE" type="datetime" />
+			<column name="END_DATE" type="datetime" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+			
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="OPERATOR_FIRM_OPERATOR_NUMBER_SEQ" tableName="OPERATOR_FIRM_OPERATOR_NUMBER" />
+		<addPrimaryKey tableName="OPERATOR_FIRM_OPERATOR_NUMBER" columnNames="ID"
+			constraintName="OPERATOR_FIRM_OPERATOR_NUMBER_PK" />
+		<addForeignKeyConstraint baseColumnNames="OPERATOR_FIRM_ID"
+			baseTableName="OPERATOR_FIRM_OPERATOR_NUMBER" constraintName="FK_OPERATOR_FIRM_OPERATOR_NUMBER_OPERATOR_NUMBER_ID"
+			referencedColumnNames="ID" referencedTableName="OPERATOR_FIRM" />
+		<addForeignKeyConstraint baseColumnNames="OPERATOR_NUMBER_ID"
+			baseTableName="OPERATOR_FIRM_OPERATOR_NUMBER" constraintName="FK_OPERATOR_FIRM_OPERATOR_NUMBER_OPERATOR_FIRM_ID"
+			referencedColumnNames="ID" referencedTableName="OPERATOR_NUMBER" />
+
+
+		<createSequence incrementBy="1" sequenceName="SHIFT_PROFILE_SEQ"
+			startValue="1" />
+		<createTable tableName="SHIFT_PROFILE">
+			<column name="ID" type="int"></column>
+			<column name="SHIFT_NAME" type="varchar(50)" />
+			<column name="START_TIME" type="time" />
+			<column name="END_TIME" type="time" />
+			<column name="DAYS" type="int" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="SHIFT_PROFILE_SEQ" tableName="SHIFT_PROFILE" />
+		<addPrimaryKey tableName="SHIFT_PROFILE" columnNames="ID"
+			constraintName="SHIFT_PROFILE_PK" />
+
+
+		<createSequence incrementBy="1" sequenceName="DRIVER_TYPE_SEQ"
+			startValue="1" />
+		<createTable tableName="DRIVER_TYPE">
+			<column name="ID" type="int"></column>
+			<column name="DRIVER_TYPE" type="varchar(50)" >
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="int"/>
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="DRIVER_TYPE_SEQ" tableName="DRIVER_TYPE" />
+		<addPrimaryKey tableName="DRIVER_TYPE" columnNames="ID"
+			constraintName="DRIVER_TYPE_PK" />
+
+		<createSequence incrementBy="1" sequenceName="DRIVER_SEQ"
+			startValue="1" />
+		<createTable tableName="DRIVER">
+			<column name="ID" type="int"></column>
+			<column name="FIRST_NAME" type="varchar(50)" />
+			<column name="LAST_NAME" type="varchar(50)" />
+			<column name="ADDRESS_ID" type="int" />
+			<column name="AUTHORITY_ID" type="varchar(50)" />
+			<column name="AUTHORITY_NAME" type="varchar(50)" />
+			<column name="DRIVER_TYPE_ID" type="int" />
+			<column name="EVIDENCE_UP_TO_DATE" type="boolean" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="DRIVER_SEQ" tableName="DRIVER" />
+		<addPrimaryKey tableName="DRIVER" columnNames="ID"
+			constraintName="DRIVER_PK" />
+		<addForeignKeyConstraint baseColumnNames="ADDRESS_ID"
+			baseTableName="DRIVER" constraintName="FK_DRIVER_ADDRESS_ID"
+			referencedColumnNames="ID" referencedTableName="ADDRESS" />
+		<addForeignKeyConstraint baseColumnNames="DRIVER_TYPE_ID"
+			baseTableName="DRIVER" constraintName="FK_DRIVER_DRIVER_TYPE_ID"
+			referencedColumnNames="ID" referencedTableName="DRIVER_TYPE" />
+	
+	
+		<createSequence incrementBy="1" sequenceName="DRIVER_OPERATOR_FIRM_SEQ"
+			startValue="1" />
+		<createTable tableName="DRIVER_OPERATOR_FIRM">
+			<column name="ID" type="int"></column>
+			<column name="DRIVER_ID" type="int" />
+			<column name="OPERATOR_FIRM_ID" type="int" />
+			<column name="ACTIVE" type="boolean" />
+			<column name="START_DATE" type="datetime" />
+			<column name="END_DATE" type="datetime" />
+			<column name="SHIFT_PROFILE_ID" type="int" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="DRIVER_OPERATOR_FIRM_SEQ" tableName="DRIVER_OPERATOR_FIRM" />
+		<addPrimaryKey tableName="DRIVER_OPERATOR_FIRM" columnNames="ID"
+			constraintName="DRIVER_OPERATOR_FIRM_PK" />
+		<addForeignKeyConstraint baseColumnNames="OPERATOR_FIRM_ID"
+			baseTableName="DRIVER_OPERATOR_FIRM" constraintName="FK_DRIVER_OPERATOR_FIRM_DRIVER_ID"
+			referencedColumnNames="ID" referencedTableName="DRIVER" />
+		<addForeignKeyConstraint baseColumnNames="OPERATOR_FIRM_ID"
+			baseTableName="DRIVER_OPERATOR_FIRM" constraintName="FK_DRIVER_OPERATOR_FIRM_OPERATOR_FIRM_ID"
+			referencedColumnNames="ID" referencedTableName="OPERATOR_FIRM" />
+		<addForeignKeyConstraint baseColumnNames="SHIFT_PROFILE_ID"
+			baseTableName="DRIVER_OPERATOR_FIRM" constraintName="FK_DRIVER_OPERATOR_FIRM_SHIFT_PROFILE_ID"
+			referencedColumnNames="ID" referencedTableName="SHIFT_PROFILE" />
+
+
+	
+		<createSequence incrementBy="1" sequenceName="DRIVING_LICENCE_TYPE_SEQ"
+			startValue="1" />
+		<createTable tableName="DRIVING_LICENCE_TYPE">
+			<column name="ID" type="int"></column>
+			<column name="LICENCE_TYPE" type="varchar(50)" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="DRIVING_LICENCE_TYPE_SEQ" tableName="DRIVING_LICENCE_TYPE" />
+		<addPrimaryKey tableName="DRIVING_LICENCE_TYPE"
+			columnNames="ID" constraintName="DRIVING_LICENCE_TYPE_PK" />
+
+
+		<createSequence incrementBy="1" sequenceName="DRIVING_LICENCE_SEQ"
+			startValue="1" />
+		<createTable tableName="DRIVING_LICENCE">
+			<column name="ID" type="int"></column>
+			<column name="COUNTRY_ID" type="int" />
+			<column name="LICENCE_NUMBER" type="int" />
+			<column name="LICENCE_EXPIRY_DATE" type="int" />
+			<column name="DRIVING_LICENCE_TYPE_ID" type="int" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="DRIVING_LICENCE_SEQ" tableName="DRIVING_LICENCE" />
+		<addPrimaryKey tableName="DRIVING_LICENCE" columnNames="ID"
+			constraintName="DRIVING_LICENCE_PK" />
+		<addForeignKeyConstraint baseColumnNames="COUNTRY_ID"
+			baseTableName="DRIVING_LICENCE" constraintName="FK_DRIVING_LICENCE_COUNTRY_ID"
+			referencedColumnNames="ID" referencedTableName="COUNTRY" />
+		<addForeignKeyConstraint baseColumnNames="DRIVING_LICENCE_TYPE_ID"
+			baseTableName="DRIVING_LICENCE" constraintName="FK_DRIVING_LICENCE_DRIVING_LICENCE_TYPE_ID"
+			referencedColumnNames="ID" referencedTableName="DRIVING_LICENCE_TYPE" />
+
+		<createSequence incrementBy="1" sequenceName="VEHICLE_TYPE_SEQ"
+			startValue="1" />
+		<createTable tableName="VEHICLE_TYPE">
+			<column name="ID" type="int"></column>
+			<column name="TYPE" type="varchar(50)" />
+			<column name="NUMBER_OF_SEATS" type="int" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="VEHICLE_TYPE_SEQ" tableName="VEHICLE_TYPE" />
+		<addPrimaryKey tableName="VEHICLE_TYPE" columnNames="ID"
+			constraintName="VEHICLE_TYPE_PK" />
+		
+		
+		<createSequence incrementBy="1" sequenceName="VEHICLE_SEQ"
+			startValue="1" />
+		<createTable tableName="VEHICLE">
+			<column name="ID" type="int"></column>
+			<column name="VEHICLE_TYPE_ID" type="int"></column>
+			<column name="REGISTRATION" type="varchar(50)" />
+			<column name="MOT_DATE" type="datetime" />
+			<column name="AUTHORITY_TEST_DATE" type="datetime" />
+			<column name="ANNUAL_TAX_DATE" type="datetime" />
+			<column name="INSURANCE_COMPANY_NAME" type="varchar(50)" />
+			<column name="INSURANCE_POLICY_NUMBER" type="varchar(50)" />
+			<column name="INSURANCE_EXPIRY_DATE" type="datetime" />
+			<column name="ACTIVE" type="boolean" />
+			<column name="START_DATE" type="datetime" />
+			<column name="END_DATE" type="datetime" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="VEHICLE_SEQ" tableName="VEHICLE" />
+		<addPrimaryKey tableName="VEHICLE" columnNames="ID"
+			constraintName="VEHICLE_PK" />
+		<addForeignKeyConstraint baseColumnNames="VEHICLE_TYPE_ID"
+			baseTableName="VEHICLE" constraintName="FK_VEHICLE_VEHICLE_TYPE_ID"
+			referencedColumnNames="ID" referencedTableName="VEHICLE_TYPE" />
+
+
+		<createSequence incrementBy="1" sequenceName="DRIVER_VEHICLE_SEQ"
+			startValue="1" />
+		<createTable tableName="DRIVER_VEHICLE">
+			<column name="ID" type="int"></column>
+			<column name="DRIVER_ID" type="int" />
+			<column name="VEHICLE_ID" type="int" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="DRIVER_VEHICLE_SEQ" tableName="DRIVER_VEHICLE" />
+		<addPrimaryKey tableName="DRIVER_VEHICLE" columnNames="ID"
+			constraintName="DRIVER_VEHICLE_PK" />
+		<addForeignKeyConstraint baseColumnNames="DRIVER_ID"
+			baseTableName="DRIVER_VEHICLE" constraintName="FK_DRIVER_VEHICLE_DRIVER_ID"
+			referencedColumnNames="ID" referencedTableName="DRIVER" />
+		<addForeignKeyConstraint baseColumnNames="DRIVER_ID"
+			baseTableName="DRIVER_VEHICLE" constraintName="FK_DRIVER_VEHICLE_VEHICLE_ID"
+			referencedColumnNames="ID" referencedTableName="VEHICLE" />
+			
+	
+			
+		<createSequence incrementBy="1" sequenceName="SERVICE_CHARGE_TYPE_SEQ"
+			startValue="1" />
+		<createTable tableName="SERVICE_CHARGE_TYPE">
+			<column name="ID" type="int"></column>
+			<column name="TYPE" type="int" />
+			<column name="FREQUENCY" type="int" />
+			<column name="BILLING_DAY" type="int"/>
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="SERVICE_CHARGE_TYPE_SEQ" tableName="SERVICE_CHARGE_TYPE" />
+		<addPrimaryKey tableName="SERVICE_CHARGE_TYPE" columnNames="ID"
+			constraintName="SERVICE_CHARGE_TYPE_PK" />
+		
+		<createSequence incrementBy="1" sequenceName="SERVICE_CHARGE_RATE_SEQ"
+			startValue="1" />
+		<createTable tableName="SERVICE_CHARGE_RATE">
+			<column name="ID" type="int"></column>
+			<column name="COUNTRY_ID" type="int" />
+			<column name="RATE"  type="decimal(19,4)" />
+			<column name="RATE_TYPE"  type="int" />
+			<column name="COMPANY_ID" type="int" />
+			<column name="SERVICE_CHARGE_TYPE_ID" type="int" />		
+			<column name="ACTIVE" type="boolean"/>
+			<column name="START_DATE" type="datetime" />
+			<column name="END_DATE" type="datetime" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="SERVICE_CHARGE_RATE_SEQ" tableName="SERVICE_CHARGE_RATE" />
+		<addPrimaryKey tableName="SERVICE_CHARGE_RATE" columnNames="ID"
+			constraintName="SERVICE_CHARGE_RATE_PK" />
+		<addForeignKeyConstraint baseColumnNames="COMPANY_ID"
+			baseTableName="SERVICE_CHARGE_RATE" constraintName="FK_SERVICE_CHARGE_RATE_COMPANY_ID"
+			referencedColumnNames="ID" referencedTableName="COMPANY" />
+		<addForeignKeyConstraint baseColumnNames="SERVICE_CHARGE_TYPE_ID"
+			baseTableName="SERVICE_CHARGE_RATE" constraintName="FK_SERVICE_CHARGE_RATE_SERVICE_CHARGE_TYPE_ID"
+			referencedColumnNames="ID" referencedTableName="SERVICE_CHARGE_TYPE" />
+			
+		<createSequence incrementBy="1" sequenceName="SERVICE_CHARGE_RUN_SEQ"
+			startValue="1" />
+		<createTable tableName="SERVICE_CHARGE_RUN">
+			<column name="ID" type="int"></column>
+			<column name="SERVICE_CHARGE_RATE_ID" type="int" />
+			<column name="RUN_DATE" type="datetime" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="SERVICE_CHARGE_RUN_SEQ" tableName="SERVICE_CHARGE_RUN" />
+		<addPrimaryKey tableName="SERVICE_CHARGE_RUN" columnNames="ID"
+			constraintName="SERVICE_CHARGE_RUN_PK" />
+		<addForeignKeyConstraint baseColumnNames="SERVICE_CHARGE_RATE_ID"
+			baseTableName="SERVICE_CHARGE_RUN" constraintName="FK_SERVICE_CHARGE_RUN_SERVICE_CHARGE_RATE_ID"
+			referencedColumnNames="ID" referencedTableName="SERVICE_CHARGE_RATE" />
+
+
+		<createSequence incrementBy="1" sequenceName="COMPANY_SERVICE_CHARGE_RUN_HISTORY_SEQ"
+			startValue="1" />
+		<createTable tableName="COMPANY_SERVICE_CHARGE_RUN_HISTORY">
+			<column name="ID" type="int"></column>
+			<column name="SERVICE_CHARGE_RUN_ID" type="int" />
+			<column name="DRIVER_ID" type="int" />
+			<column name="PAID" type="boolean" />
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+		<addDefaultValue columnDataType="int" columnName="ID"
+			defaultValueSequenceNext="COMPANY_SERVICE_CHARGE_RUN_HISTORY_SEQ" tableName="COMPANY_SERVICE_CHARGE_RUN_HISTORY" />
+		<addPrimaryKey tableName="COMPANY_SERVICE_CHARGE_RUN_HISTORY" columnNames="ID"
+			constraintName="COMPANY_SERVICE_CHARGE_RUN_HISTORY_PK" />
+		<addForeignKeyConstraint baseColumnNames="SERVICE_CHARGE_RUN_ID"
+			baseTableName="COMPANY_SERVICE_CHARGE_RUN_HISTORY" constraintName="FK_COMPANY_SERVICE_CHARGE_RUN_HISTORY_SERVICE_CHARGE_RUN_ID"
+			referencedColumnNames="ID" referencedTableName="SERVICE_CHARGE_RUN" />
+		<addForeignKeyConstraint baseColumnNames="DRIVER_ID"
+			baseTableName="COMPANY_SERVICE_CHARGE_RUN_HISTORY" constraintName="FK_COMPANY_SERVICE_CHARGE_RUN_HISTORY_DRIVER_ID"
+			referencedColumnNames="ID" referencedTableName="DRIVER" />
+		
+	</changeSet>
+	
+
+</databaseChangeLog>
