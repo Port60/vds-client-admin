@@ -3,6 +3,7 @@ package com.port60.clientadmin.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,6 +23,7 @@ import lombok.ToString;
 public class Vehicle extends Audit {
 
 	@Id
+	@GeneratedValue(generator ="VEHICLE_SEQ" )
 	private Long id;
 	@ManyToOne
 	@JoinColumn(name = "VEHICLE_TYPE_ID", nullable = false)

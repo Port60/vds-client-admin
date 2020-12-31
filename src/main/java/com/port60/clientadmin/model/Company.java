@@ -3,6 +3,7 @@ package com.port60.clientadmin.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,6 +23,7 @@ import lombok.ToString;
 public class Company extends Audit {
 
 	@Id
+	@GeneratedValue(generator ="COMPANY_SEQ" )
 	private Long id;
 	private String companyName;
 	private String companyRegNumber;

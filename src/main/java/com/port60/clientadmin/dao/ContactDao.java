@@ -6,4 +6,5 @@ import com.port60.clientadmin.model.Contact;
 
 public interface ContactDao extends JpaRepository<Contact, Long>{
 
+
 }

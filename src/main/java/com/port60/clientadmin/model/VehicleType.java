@@ -1,6 +1,7 @@
 package com.port60.clientadmin.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -19,6 +20,7 @@ public class VehicleType extends Audit {
 	
 	
 	@Id
+	@GeneratedValue(generator ="VEHICLE_TYPE_SEQ" )
 	private Long id;
 	
 	private String type;

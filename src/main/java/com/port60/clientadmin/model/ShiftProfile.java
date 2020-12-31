@@ -3,6 +3,7 @@ package com.port60.clientadmin.model;
 import java.time.LocalTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -20,6 +21,7 @@ import lombok.ToString;
 public class ShiftProfile  extends Audit{
 
 	@Id
+	@GeneratedValue(generator ="SHIFT_PROFILE_SEQ" )
 	private Long id;
 	private String shiftName;
 	private LocalTime startTime;

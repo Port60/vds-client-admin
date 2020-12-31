@@ -1,14 +1,15 @@
-version: '2'
+version: '3.7'
 services:
     db:
         container_name: vds_db
-        image: postgres:9.5
+        image:  kartoza/postgis
         volumes:
             - vds_client_db:/var/lib/postgresql/data
         environment:
-            - POSTGRES_PASSWORD=password123
+            - POSTGRES_PASS=password123
             - POSTGRES_USER=vdsclient
-            - POSTGRES_DB=vdsca
+            - POSTGRES_DBNAME=vdsca
+            - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology
             - PGDATA=/var/lib/postgresql/data/pgdata
         ports:
             - 5432:5432

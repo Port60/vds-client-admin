@@ -1,6 +1,7 @@
 package com.port60.clientadmin.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -18,6 +19,7 @@ import lombok.ToString;
 public class DrivingLicenceType extends Audit {
 	
 	@Id
+	@GeneratedValue(generator ="DRIVING_LICENCE_TYPE_SEQ" )
 	private Long id;
 	private String licenceType;
 }

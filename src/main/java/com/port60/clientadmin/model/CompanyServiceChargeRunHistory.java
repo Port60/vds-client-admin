@@ -1,6 +1,7 @@
 package com.port60.clientadmin.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +21,7 @@ import lombok.ToString;
 public class CompanyServiceChargeRunHistory extends Audit {
 	
 	@Id
+	@GeneratedValue(generator ="COMPANY_SERVICE_CHARGE_RUN_HISTORY_SEQ" )
 	private Long id;
 	@ManyToOne
 	@JoinColumn(name = "SERVICE_CHARGE_RUN_ID", nullable = false)

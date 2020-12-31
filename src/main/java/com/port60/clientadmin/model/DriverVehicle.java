@@ -1,6 +1,7 @@
 package com.port60.clientadmin.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +21,7 @@ import lombok.ToString;
 public class DriverVehicle extends Audit {
 	
 	@Id
+	@GeneratedValue(generator ="DRIVER_VEHICLE_SEQ" )
 	private Long id;
 	
 	@ManyToOne

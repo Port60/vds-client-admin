@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+   xmlns:spatial="http://www.liquibase.org/xml/ns/dbchangelog-ext/liquibase-spatial"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd 
+   http://www.liquibase.org/xml/ns/dbchangelog-ext/liquibase-spatial 
+      http://lonnyj.github.com/liquibase-spatial/liquibase-spatial.xsd">
+
 
 
 	<changeSet author="asrar" id="00001">
@@ -78,8 +81,7 @@
 			<column name="TELEPHONE_NUMBER" type="varchar(20)">
 				<constraints nullable="false" />
 			</column>
-			<column name="EMAIL" type="int"></column>
-			<column name="CONTACT_PREFERENCE" type="int"></column>
+			<column name="EMAIL" type="varchar(200)"></column>
 			<column name="version" type="int" />
 			<column name="created" type="datetime" />
 			<column name="created_by_user" type="varchar(50)" />
@@ -111,9 +113,8 @@
 			<column name="START_DATE" type="datetime">
 				<constraints nullable="false" />
 			</column>
-			<column name="END_DATE" type="datetime">
-				<constraints nullable="false" />
-			</column>
+			<column name="END_DATE" type="datetime"/>
+
 			<column name="version" type="int" />
 			<column name="created" type="datetime" />
 			<column name="created_by_user" type="varchar(50)" />
@@ -148,9 +149,7 @@
 			<column name="START_DATE" type="datetime">
 				<constraints nullable="false" />
 			</column>
-			<column name="END_DATE" type="datetime">
-				<constraints nullable="false" />
-			</column>			
+			<column name="END_DATE" type="datetime" />
 			<column name="version" type="int" />
 			<column name="created" type="datetime" />
 			<column name="created_by_user" type="varchar(50)" />
@@ -168,29 +167,8 @@
 		<addForeignKeyConstraint baseColumnNames="CONTACT_ID"
 			baseTableName="COMPANY_CONTACT" constraintName="FK_COMPANY_CONTACT_CONTACT_ID"
 			referencedColumnNames="ID" referencedTableName="CONTACT" />
-		
 
 
-		<createSequence incrementBy="1" sequenceName="OPERATOR_NUMBER_SEQ"
-					startValue="1" />
-		<createTable tableName="OPERATOR_NUMBER">
-			<column name="ID" type="int"></column>
-			<column name="COUNTRY_ID" type="int" />
-			<column name="NUMBER" type="varchar(20)">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-		<addDefaultValue columnDataType="int" columnName="ID"
-			defaultValueSequenceNext="OPERATOR_NUMBER_SEQ" tableName="OPERATOR_NUMBER" />
-		<addPrimaryKey tableName="OPERATOR_NUMBER" columnNames="ID"
-			constraintName="OPERATOR_NUMBER_PK" />
-		<addForeignKeyConstraint baseColumnNames="COUNTRY_ID"
-			baseTableName="OPERATOR_NUMBER" constraintName="FK_OPERATOR_NUMBER_COUNTRY_ID"
-			referencedColumnNames="ID" referencedTableName="COUNTRY" />
-		<addUniqueConstraint 
-            columnNames="COUNTRY_ID, NUMBER" constraintName="OPERATOR_NUMBER_COUNTRY_NUMBER_UNIQUE"  
-            tableName="OPERATOR_NUMBER" />
-            
 		<createSequence incrementBy="1" sequenceName="OPERATOR_FIRM_SEQ"
 			startValue="1" />
 		<createTable tableName="OPERATOR_FIRM">
@@ -204,7 +182,6 @@
 			<column name="OPERATOR_LICENCE" type="varchar(50)">
 				<constraints nullable="false" />
 			</column>
-			<column name="OPRATOR_LICENCE_EXPIRY_DATE" type="datetime" />
 			<column name="COMPANY_ID" type="int" />
 			<column name="EVIDENCE_UP_TO_DATE" type="boolean" />
 			<column name="version" type="int" />
@@ -225,36 +202,35 @@
 			baseTableName="OPERATOR_FIRM" constraintName="FK_OPERATOR_FIRM_COMPANY_ID"
 			referencedColumnNames="ID" referencedTableName="COMPANY" />
 
-
-		<createSequence incrementBy="1" sequenceName="OPERATOR_FIRM_OPERATOR_NUMBER_SEQ"
+		<createSequence incrementBy="1" sequenceName="OPERATOR_NUMBER_SEQ"
 			startValue="1" />
-		<createTable tableName="OPERATOR_FIRM_OPERATOR_NUMBER">
+		<createTable tableName="OPERATOR_NUMBER">
 			<column name="ID" type="int"></column>
-			<column name="OPERATOR_FIRM_ID" type="int">
+			<column name="COUNTRY_ID" type="int" />
+			<column name="NUMBER" type="varchar(20)">
 				<constraints nullable="false" />
 			</column>
-			<column name="OPERATOR_NUMBER_ID" type="int">
-				<constraints nullable="false" />
-			</column>
-			<column name="START_DATE" type="datetime" />
-			<column name="END_DATE" type="datetime" />
+			<column name="OPERATOR_FIRM_ID" type="int" />
 			<column name="version" type="int" />
 			<column name="created" type="datetime" />
 			<column name="created_by_user" type="varchar(50)" />
 			<column name="last_modified" type="datetime" />
 			<column name="last_updated_by_user" type="varchar(50)" />
 		</createTable>
-			
 		<addDefaultValue columnDataType="int" columnName="ID"
-			defaultValueSequenceNext="OPERATOR_FIRM_OPERATOR_NUMBER_SEQ" tableName="OPERATOR_FIRM_OPERATOR_NUMBER" />
-		<addPrimaryKey tableName="OPERATOR_FIRM_OPERATOR_NUMBER" columnNames="ID"
-			constraintName="OPERATOR_FIRM_OPERATOR_NUMBER_PK" />
+			defaultValueSequenceNext="OPERATOR_NUMBER_SEQ" tableName="OPERATOR_NUMBER" />
+		<addPrimaryKey tableName="OPERATOR_NUMBER" columnNames="ID"
+			constraintName="OPERATOR_NUMBER_PK" />
+		<addForeignKeyConstraint baseColumnNames="COUNTRY_ID"
+			baseTableName="OPERATOR_NUMBER" constraintName="FK_OPERATOR_NUMBER_COUNTRY_ID"
+			referencedColumnNames="ID" referencedTableName="COUNTRY" />
 		<addForeignKeyConstraint baseColumnNames="OPERATOR_FIRM_ID"
-			baseTableName="OPERATOR_FIRM_OPERATOR_NUMBER" constraintName="FK_OPERATOR_FIRM_OPERATOR_NUMBER_OPERATOR_NUMBER_ID"
+			baseTableName="OPERATOR_NUMBER" constraintName="FK_OPERATOR_NUMBER_OPERATOR_FIRM_ID"
 			referencedColumnNames="ID" referencedTableName="OPERATOR_FIRM" />
-		<addForeignKeyConstraint baseColumnNames="OPERATOR_NUMBER_ID"
-			baseTableName="OPERATOR_FIRM_OPERATOR_NUMBER" constraintName="FK_OPERATOR_FIRM_OPERATOR_NUMBER_OPERATOR_FIRM_ID"
-			referencedColumnNames="ID" referencedTableName="OPERATOR_NUMBER" />
+		<addUniqueConstraint
+			columnNames="COUNTRY_ID, NUMBER" constraintName="OPERATOR_NUMBER_COUNTRY_NUMBER_UNIQUE"
+			tableName="OPERATOR_NUMBER" />
+
 
 
 		<createSequence incrementBy="1" sequenceName="SHIFT_PROFILE_SEQ"
@@ -576,5 +552,24 @@
 		
 	</changeSet>
 	
-
+	<changeSet author="asrar" id="00002">
+		<createSequence incrementBy="1" sequenceName="CLIENT_ZONE_SEQ"
+			startValue="1" />
+		
+		<createTable tableName="CLIENT_ZONE">
+			<column name="ID" type="int"></column>
+			<column name="NAME" type="varchar(100)" >
+				<constraints nullable="false"/>
+			</column>
+			<column name="ZONE_MAPPING_ID" type="varchar(100)" />
+			<column name="ZONE_GEOMETRY" type="GEOMETRY(Polygon, 4326)" >
+				<constraints nullable="false"/>
+			</column>
+			<column name="version" type="int" />
+			<column name="created" type="datetime" />
+			<column name="created_by_user" type="varchar(50)" />
+			<column name="last_modified" type="datetime" />
+			<column name="last_updated_by_user" type="varchar(50)" />
+		</createTable>
+	</changeSet>
 </databaseChangeLog>

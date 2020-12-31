@@ -5,7 +5,13 @@ mvnw
 mvnw.cmd
 # Log file
 *.log
-
+*.iml
+/.idea
+.DS_Store
+.classpath
+.factorypath
+.project
+.settings/
 # BlueJ files
 *.ctxt
 
